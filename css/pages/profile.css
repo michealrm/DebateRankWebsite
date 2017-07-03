@@ -1,0 +1,9 @@
+.blur {
+ -webkit-filter: blur(100%);
+ -moz-filter: blur(100%);
+ -o-filter: blur(100%);
+ -ms-filter: blur(100%);
+ filter: blur(100%);
+ width: 100%;
+ height: 100%;
+}

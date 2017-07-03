@@ -11,17 +11,17 @@
 	$stmt = $dbc->prepare('SELECT id, first, last, school FROM debaters WHERE first=? AND last=?');
 	$stmt->bind_param('ss', $first, $last);
 	$stmt->execute();
-	$result = $stmt->get_result();
-	if($result->num_rows == 0) {
+	$stmt->bind_result($id, $first, $last, $school);
+	mysqli_stmt_store_result($stmt);
+	if(mysqli_stmt_num_rows($stmt) == 0) {
 		$_SESSION['errMsg'] = $_POST["first"] . " " . $_POST["last"] . " was not found.";
 		header('Location: index.php');
 	}
-	else if($result->num_rows == 1) {
-		$row = $result->fetch_array(MYSQLI_ASSOC);
-		header('Location: profile.php?id=' . $row["id"]);
+	else if(mysqli_stmt_num_rows($stmt) == 1) {
+		$stmt->fetch();
+		header('Location: profile.php?id=' . $id);
 	}
  ?>
-
   <head>
     <meta charset="utf-8">
     <title>Debate Scout</title>
@@ -65,7 +65,7 @@
                     <h1>Search for "<?php echo $_POST["first"] . ' ' . $_POST["last"]; ?>"</h1>
                 </div>
                 <div class="col-sm-2">
-                    <h3 align=right><?php echo $result->num_rows; ?> results</h3>
+                    <h3 align=right><?php echo mysqli_stmt_num_rows($stmt); ?> results</h3>
                 </div>
             </div>
         </div>
@@ -75,7 +75,8 @@
 
     <div class="row">
         <div class="col-sm-1"></div>
-        <table class="border--round col-sm-10">
+        <div class="col-sm-10">
+        <table class="border--round">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -86,13 +87,14 @@
             </thead>
             <tbody>
 			<?php
-				while($row = $result->fetch_array(MYSQLI_ASSOC)) {
-					echo '<tr><td>' . $row['first'] . ' ' . $row['last'] . '</td><td>' . $row['school'] . '</td><td></td><td><a class="btn btn--lg btn--primary type--uppercase center-block" type=submit href="profile.php?id=' . $row['id'] . '"><span class="btn__text">Profile</span></a></td></tr>';
+				while($stmt->fetch()) {
+					echo '<tr><td>' . $first . ' ' . $last . '</td><td>' . $school . '</td><td></td><td><a class="btn btn--lg btn--primary type--uppercase center-block" type=submit href="profile.php?id=' . $id . '"><span class="btn__text">Profile</span></a></td></tr>';
 				}
 			?>
                 </tr>
             </tbody>
         </table>
+      </div>
         <div class="col-sm-1"></div>
     </div>
 
