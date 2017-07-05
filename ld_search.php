@@ -3,10 +3,10 @@
  <?php
 	session_start();
 	if(!isset($_POST["first"]) || !isset($_POST["last"])) {
-		header('Location: index.html');
+		header('Location: ld.php');
 	}
 	require_once('php/mysql_connect.php');
-  
+
 	$first = $_POST["first"];
 	$last = $_POST["last"];
 	$stmt = $dbc->prepare('SELECT id, first, last, school FROM debaters WHERE first=? AND last=?');

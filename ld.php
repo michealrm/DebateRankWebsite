@@ -11,7 +11,7 @@ session_start();
 
   <body>
     <?php include 'templates/nav.html'; ?>
-    <form class="container centercontainer" method="post" action="search.php">
+    <form class="container centercontainer" method="post" action="ld_search.php">
       <h1 class="color--primary" align=center>Debate Rank</h1>
       <div class="typed-headline hidden-xs" align=center>
           <span class="h4 inline-block">Search for </span>
