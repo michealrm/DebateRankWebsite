@@ -1,1 +1,3 @@
-# DebateScoutWebsite
+# DebateRankWebsite
+
+https://debaterank.com/
